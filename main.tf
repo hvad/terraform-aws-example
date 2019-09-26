@@ -1,5 +1,6 @@
 provider "aws" {
   region = "eu-west-1"
+  version = "~> 2.0"
 }
 
 resource "aws_key_pair" "deployer" {
@@ -8,10 +9,26 @@ resource "aws_key_pair" "deployer" {
 }
 
 
-resource "aws_instance" "my_instances" {
+resource "aws_instance" "my_instance" {
   ami = "ami-a625b8df"
-  count = 1
   instance_type = "t2.micro"
-  associate_public_ip_address = "true"
   key_name = "${aws_key_pair.deployer.id}"
+  vpc_security_group_ids = [aws_security_group.instance.id]
+}
+
+resource "aws_security_group" "instance" {
+
+  name = var.security_group_name
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+output "public_ip" {
+  value       = aws_instance.my_instance.public_ip
+  description = "The public IP of the Instance"
 }
