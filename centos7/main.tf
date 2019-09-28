@@ -10,7 +10,7 @@ resource "aws_key_pair" "deployer" {
 
 
 resource "aws_instance" "my_instance" {
-  ami = "ami-a625b8df"
+  ami = "ami-6e28b517"
   instance_type = "t2.micro"
   key_name = "${aws_key_pair.deployer.id}"
   vpc_security_group_ids = [aws_security_group.instance.id]
@@ -26,6 +26,18 @@ resource "aws_security_group" "instance" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
 }
 
 output "public_ip" {
