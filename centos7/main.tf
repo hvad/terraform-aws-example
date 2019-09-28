@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "eu-west-2"
+  region = "eu-west-1"
   version = "~> 2.0"
 }
 
@@ -9,7 +9,7 @@ resource "aws_key_pair" "deployer" {
 }
 
 resource "aws_instance" "my_centos7" {
-  ami = "ami-ee6a718a" 
+  ami = "ami-0ff760d16d9497662" 
   instance_type = "t2.micro"
   key_name = "${aws_key_pair.deployer.id}"
   vpc_security_group_ids = [aws_security_group.instance.id]
