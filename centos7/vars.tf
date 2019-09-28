@@ -6,5 +6,5 @@ variable "own_ssh_key" {
 variable "security_group_name" {
   description = "The name of my security group"
   type        = string
-  default     = "terraform-my-instance"
+  default     = "terraform-my-centos7"
 }

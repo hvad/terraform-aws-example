@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "eu-west-1"
+  region = "eu-west-2"
   version = "~> 2.0"
 }
 
@@ -8,9 +8,8 @@ resource "aws_key_pair" "deployer" {
   public_key = "${var.own_ssh_key}"
 }
 
-
-resource "aws_instance" "my_instance" {
-  ami = "ami-6e28b517"
+resource "aws_instance" "my_centos7" {
+  ami = "ami-ee6a718a" 
   instance_type = "t2.micro"
   key_name = "${aws_key_pair.deployer.id}"
   vpc_security_group_ids = [aws_security_group.instance.id]
@@ -41,6 +40,6 @@ resource "aws_security_group" "instance" {
 }
 
 output "public_ip" {
-  value       = aws_instance.my_instance.public_ip
+  value       = aws_instance.my_centos7.public_ip
   description = "The public IP of the Instance"
 }
